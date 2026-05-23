@@ -2,7 +2,7 @@ package interfaces;
 
 public interface IGestionUsuarios {
     void registrarUsuario();
-    void listarUsuarios();
+    void mostrarUsuarios();
     void borrarUsuarios();
-    void listarBorrados();
+    void mostrarUsuariosBorrados();
 }

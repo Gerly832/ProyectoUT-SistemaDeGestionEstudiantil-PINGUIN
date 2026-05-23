@@ -13,8 +13,8 @@ import java.util.Scanner;
 // SE GESTIONAN LOS PROCESOS CON LOS USUARIOS
 public class GestionUsuarios implements IGestionUsuarios {
 
-    private ArrayList<Usuario> listaUsuarios = new ArrayList<>();
-    private ArrayList<Usuario> listaBorrados = new ArrayList<>();
+    private ArrayList<Usuario> mostrarUsuarios = new ArrayList<>();
+    private ArrayList<Usuario> mostrarUsuariosBorrados = new ArrayList<>();
     private Scanner scanner = new Scanner(System.in);
 
 
@@ -33,7 +33,7 @@ public class GestionUsuarios implements IGestionUsuarios {
             }
         }
 
-        //Limpia la información anterior
+        // Limpia la información anterior
         scanner.nextLine();
 
         System.out.println("\nDigite su nombre completo por favor: ");
@@ -51,14 +51,14 @@ public class GestionUsuarios implements IGestionUsuarios {
 
         if (esProfesor) {
             // El DNI está en la lista de profesores
-            Usuario nuevoProfesor = new Usuario(identificacion, nombreCompleto, correoIngresado, claveIngresada);
-            listaUsuarios.add(nuevoProfesor);
+            Usuario nuevoProfesor = new Usuario(identificacion, nombreCompleto, correoIngresado, claveIngresada, esProfesor);
+            mostrarUsuarios.add(nuevoProfesor);
             System.out.println("\n¡Profesor registrado con éxito!");
 
         } else if (esEstudiante) {
             // No es profesor, pero su correo termina en @ut.edu.co
-            Usuario nuevoEstudiante = new Usuario(identificacion, nombreCompleto, correoIngresado, claveIngresada);
-            listaUsuarios.add(nuevoEstudiante);
+            Usuario nuevoEstudiante = new Usuario(identificacion, nombreCompleto, correoIngresado, claveIngresada, esProfesor);
+            mostrarUsuarios.add(nuevoEstudiante);
             System.out.println("\n¡Estudiante registrado con éxito!");
 
         } else {
@@ -69,14 +69,14 @@ public class GestionUsuarios implements IGestionUsuarios {
     }
 
     @Override
-    public void listarUsuarios() {
+    public void mostrarUsuarios() {
         System.out.println("--- LISTADO DE USUARIOS REGISTRADOS ---");
 
-        if (listaUsuarios.isEmpty()) {
+        if (mostrarUsuarios.isEmpty()) {
             System.out.println("No hay usuarios registrados en el sistema.");
         } else {
-            for (Usuario u : listaUsuarios) {
-                System.out.println("DNI: " + u.dni + " | Nombre: " + u.nombre + " | Correo: " + u.correo + " | Contraseña: " + u.contrasena);
+            for (Usuario u : mostrarUsuarios) {
+                System.out.println("DNI: " + u.dni + " | Nombre: " + u.nombre + " | Correo: " + u.correo + " | Contraseña: " + u.contrasena + " | Profesor: " + u.profesor);
             }
         }
     }
@@ -84,7 +84,7 @@ public class GestionUsuarios implements IGestionUsuarios {
     @Override
     public void borrarUsuarios() {
         System.out.println("--- BORRAR USUARIO ---");
-        if (listaUsuarios.isEmpty()) {
+        if (mostrarUsuarios.isEmpty()) {
             System.out.println("No hay usuarios registrados en el sistema.");
         } else {
 
@@ -93,7 +93,7 @@ public class GestionUsuarios implements IGestionUsuarios {
 
             Usuario usuarioEncontrado = null;
 
-            for (Usuario u : listaUsuarios) {
+            for (Usuario u : mostrarUsuarios) {
                 if (u.dni == identification) {
                     usuarioEncontrado = u;
                     break;
@@ -101,11 +101,25 @@ public class GestionUsuarios implements IGestionUsuarios {
             }
             if (usuarioEncontrado != null) {
 
-                Usuario usuarioBorrado = new Usuario(usuarioEncontrado.dni, usuarioEncontrado.nombre, usuarioEncontrado.correo, usuarioEncontrado.contrasena);
-                listaBorrados.add(usuarioBorrado);
+                System.out.println("\nEl usuario que desea eliminar es:" + " | DNI: " + usuarioEncontrado.dni + " | Nombre: " + usuarioEncontrado.nombre + " | Profesor: " + usuarioEncontrado.profesor);
+                System.out.println("Esta seguro? S/N");
 
-                listaUsuarios.remove(usuarioEncontrado);
-                System.out.println("\nUsuario eliminado exitosamente.");
+                // Limpia la información anterior -- De lo contrario se presenta un salto de línea y se omite la respuesta en la confirmación
+                scanner.nextLine();
+
+                String validacion = scanner.nextLine();
+
+                if (validacion.equalsIgnoreCase("S")) {
+
+                    Usuario usuarioBorrado = new Usuario(usuarioEncontrado.dni, usuarioEncontrado.nombre, usuarioEncontrado.correo, usuarioEncontrado.contrasena, usuarioEncontrado.profesor);
+                    mostrarUsuariosBorrados.add(usuarioBorrado);
+
+                    mostrarUsuarios.remove(usuarioEncontrado);
+                    System.out.println("\n ** Usuario eliminado exitosamente. **");
+                }
+                else {
+                    System.out.println("-- Proceso cancelado --");
+                }
             } else {
                 System.out.println("No se encontro ningún usuario con ese documento");
             }
@@ -113,21 +127,21 @@ public class GestionUsuarios implements IGestionUsuarios {
 
     }
     @Override
-    public void listarBorrados() {
+    public void mostrarUsuariosBorrados() {
         System.out.println("--- HISTORIAL DE USUARIOS ELIMINADOS ---");
 
-        if (listaBorrados.isEmpty()) {
+        if (mostrarUsuariosBorrados.isEmpty()) {
             System.out.println("No hay usuarios registrados en el sistema.");
         } else {
-            for (Usuario u : listaBorrados) {
-                System.out.println("DNI: " + u.dni + " | Nombre: " + u.nombre + " | Correo: " + u.correo + " | Contraseña: " + u.contrasena);
+            for (Usuario u : mostrarUsuariosBorrados) {
+                System.out.println("DNI: " + u.dni + " | Nombre: " + u.nombre + " | Correo: " + u.correo + " | Contraseña: " + u.contrasena + " | Profesor: " + u.profesor);
             }
         }
 
     }
 
-    public ArrayList<Usuario> getListaBorrados() {
-        return listaBorrados;
+    public ArrayList<Usuario> getmostrarUsuariosBorrados() {
+        return mostrarUsuariosBorrados;
     }
 
 }
