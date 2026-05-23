@@ -14,7 +14,9 @@ public static void main(String[] args) { // Arreglo cadena de texto
             System.out.println("\n*** SISTEMA DE GESTIÓN ESTUDIANTIL - PINGUIN ***\n");
             System.out.println("--- MENÚ DE OPCIONES ---");
             System.out.println("1. Registrar Usuario");
-            System.out.println("2. Iniciar Sesión");
+            System.out.println("2. Listar usuarios registrados");
+            System.out.println("3. Borrar usuario registrado");
+            System.out.println("4. Listar usuarios borrados");
             System.out.println("0. Salir");
             System.out.println("------------------------\n");
             System.out.print("Seleccione una opción: \n");
@@ -32,12 +34,27 @@ public static void main(String[] args) { // Arreglo cadena de texto
                 case 1:
                     System.out.println("\nOpción: Registrar Usuario\n");
 
-                    // LÓGICA PARA REALIZAR EL REGISTRO DE USUARIOS
+                    // Gestionar el registro de usuarios y validación
 
                     gestionUsuarios.registrar();
+                    break;
+
+                case 2:
+                    System.out.println("\nOpción: Iniciar Sesión:\n");
+
+                    // Listar usuarios registrados
                     gestionUsuarios.listar();
                     break;
 
+                case 3:
+                    System.out.println("\nOpción: Borrar usuario registrado\n");
+
+                    break;
+
+                case 4:
+                    System.out.println("\nOpción: Listar usuarios borrados\n");
+
+                    break;
 
             }
         } while (opcion != 0);

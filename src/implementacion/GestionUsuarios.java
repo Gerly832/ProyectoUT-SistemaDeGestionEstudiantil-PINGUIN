@@ -41,22 +41,26 @@ public class GestionUsuarios implements Usuarios, RegistrarUsuario, ListarUsuari
         String nombreCompleto = scanner.nextLine();
 
 
-        System.out.print("\nDigite su correo electrónico: ");
+        System.out.print("\nDigite su correo electrónico: \n");
         String correoIngresado = scanner.nextLine();
 
         boolean esEstudiante = correoIngresado.endsWith(Estudiante.correoInstitucional[0]);
 
+        System.out.println("\nIngrese una contraseña: ");
+
+        String claveIngresada = scanner.nextLine();
+
         if (esProfesor) {
             // El DNI está en la lista de profesores
-            Usuario nuevoProfesor = new Usuario(identificacion, nombreCompleto, correoIngresado);
+            Usuario nuevoProfesor = new Usuario(identificacion, nombreCompleto, correoIngresado, claveIngresada);
             listaUsuarios.add(nuevoProfesor);
-            System.out.println("¡Profesor registrado con éxito!");
+            System.out.println("\n¡Profesor registrado con éxito!");
 
         } else if (esEstudiante) {
             // No es profesor, pero su correo termina en @ut.edu.co
-            Usuario nuevoEstudiante = new Usuario(identificacion, nombreCompleto, correoIngresado);
+            Usuario nuevoEstudiante = new Usuario(identificacion, nombreCompleto, correoIngresado, claveIngresada);
             listaUsuarios.add(nuevoEstudiante);
-            System.out.println("¡Estudiante registrado con éxito!");
+            System.out.println("\n¡Estudiante registrado con éxito!");
 
         } else {
             // No cumplió ninguna de las dos condiciones
@@ -73,7 +77,7 @@ public class GestionUsuarios implements Usuarios, RegistrarUsuario, ListarUsuari
             System.out.println("No hay usuarios registrados en el sistema.");
         } else {
             for (Usuario u : listaUsuarios) {
-                System.out.println("DNI: " + u.dni + " | Nombre: " + u.nombre + " | Correo: " + u.correo);
+                System.out.println("DNI: " + u.dni + " | Nombre: " + u.nombre + " | Correo: " + u.correo + " | Contraseña: " + u.contrasena);
             }
         }
     }

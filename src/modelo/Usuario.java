@@ -1,8 +1,5 @@
 package modelo;
 
-
-import interfaces.ListarUsuarios;
-
 // DEFINE COMO ES UN USUARIO INDIVIDUALMENTE
 public class Usuario {
 
@@ -10,12 +7,14 @@ public class Usuario {
     public Integer dni;
     public String nombre;
     public String correo;
+    public String contrasena;
 
 // CONSTRUCTOR
-    public Usuario(Integer dni, String nombre, String correo) {
+    public Usuario(Integer dni, String nombre, String correo, String contrasena) {
         this.dni = dni;
         this.nombre = nombre;
         this.correo = correo;
+        this.contrasena = contrasena;
     }
 
 }
