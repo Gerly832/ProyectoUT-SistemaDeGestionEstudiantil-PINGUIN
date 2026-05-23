@@ -1,8 +1,6 @@
 package implementacion;
 
-import interfaces.ListarUsuarios;
-import interfaces.RegistrarUsuario;
-import interfaces.Usuarios;
+import interfaces.IGestionUsuarios;
 
 import modelo.Usuario;
 
@@ -13,16 +11,17 @@ import java.util.Scanner;
 
 
 // SE GESTIONAN LOS PROCESOS CON LOS USUARIOS
-public class GestionUsuarios implements Usuarios, RegistrarUsuario, ListarUsuarios {
+public class GestionUsuarios implements IGestionUsuarios {
 
     private ArrayList<Usuario> listaUsuarios = new ArrayList<>();
+    private ArrayList<Usuario> listaBorrados = new ArrayList<>();
     private Scanner scanner = new Scanner(System.in);
 
-    @Override
-    public void registrar() {
 
+    public void registrarUsuario() {
+
+        System.out.println("--- REGISTRAR NUEVO USUARIO ---");
         System.out.println("Digite su número de documento por favor: ");
-
         int identificacion = scanner.nextInt();
 
         // Validación de DNI
@@ -70,8 +69,8 @@ public class GestionUsuarios implements Usuarios, RegistrarUsuario, ListarUsuari
     }
 
     @Override
-    public void listar() {
-        System.out.println("\n--- LISTA DE USUARIOS REGISTRADOS ---");
+    public void listarUsuarios() {
+        System.out.println("--- LISTADO DE USUARIOS REGISTRADOS ---");
 
         if (listaUsuarios.isEmpty()) {
             System.out.println("No hay usuarios registrados en el sistema.");
@@ -82,12 +81,54 @@ public class GestionUsuarios implements Usuarios, RegistrarUsuario, ListarUsuari
         }
     }
 
+    @Override
+    public void borrarUsuarios() {
+        System.out.println("--- BORRAR USUARIO ---");
+        if (listaUsuarios.isEmpty()) {
+            System.out.println("No hay usuarios registrados en el sistema.");
+        } else {
 
-    public ArrayList<Usuario> getListaUsuarios() {
-        return listaUsuarios;
+            System.out.println("\nPor favor digite el número de documento del usuario: ");
+            int identification = scanner.nextInt();
+
+            Usuario usuarioEncontrado = null;
+
+            for (Usuario u : listaUsuarios) {
+                if (u.dni == identification) {
+                    usuarioEncontrado = u;
+                    break;
+                }
+            }
+            if (usuarioEncontrado != null) {
+
+                Usuario usuarioBorrado = new Usuario(usuarioEncontrado.dni, usuarioEncontrado.nombre, usuarioEncontrado.correo, usuarioEncontrado.contrasena);
+                listaBorrados.add(usuarioBorrado);
+
+                listaUsuarios.remove(usuarioEncontrado);
+                System.out.println("\nUsuario eliminado exitosamente.");
+            } else {
+                System.out.println("No se encontro ningún usuario con ese documento");
+            }
+        }
+
+    }
+    @Override
+    public void listarBorrados() {
+        System.out.println("--- HISTORIAL DE USUARIOS ELIMINADOS ---");
+
+        if (listaBorrados.isEmpty()) {
+            System.out.println("No hay usuarios registrados en el sistema.");
+        } else {
+            for (Usuario u : listaBorrados) {
+                System.out.println("DNI: " + u.dni + " | Nombre: " + u.nombre + " | Correo: " + u.correo + " | Contraseña: " + u.contrasena);
+            }
+        }
+
     }
 
-    public void setListaUsuarios(ArrayList<Usuario> listaUsuarios) {
-        this.listaUsuarios = listaUsuarios;
+    public ArrayList<Usuario> getListaBorrados() {
+        return listaBorrados;
     }
+
 }
+
